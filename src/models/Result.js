@@ -1,6 +1,7 @@
 const {
   CODE_ERROR,
-  CODE_SUCCESS
+  CODE_SUCCESS,
+  CODE_TOKEN_EXPIRED
 } = require('../utils/constant')
 
 class Result {
@@ -11,7 +12,7 @@ class Result {
     } else if (arguments.length === 1) {
       this.msg = data
     } else {
-      this.data = data
+      this.data = JSON.parse(JSON.stringify(data))
       this.msg = msg
       if (options) {
         this.options = options
@@ -33,7 +34,6 @@ class Result {
     if (this.options) {
       base = { ...base, ...this.options }
     }
-    console.log(base)
     return base
   }
 
@@ -48,6 +48,11 @@ class Result {
 
   fail(res) {
     this.code = CODE_ERROR
+    this.json(res)
+  }
+
+  expired(res) {
+    this.code = CODE_TOKEN_EXPIRED
     this.json(res)
   }
 }

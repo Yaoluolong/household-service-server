@@ -1,39 +1,50 @@
 const express = require('express')
-const boom = require('boom')
+const boom = require('boom')          //引入用于处理404请求的中间件
 const userRouter = require('./user')
-const {
-  CODE_ERROR
-} = require('../utils/constant')
+const { jwtAuth } = require('./jwt')
+const Result = require('../models/Result')
 
 // 注册路由
 const router = express.Router()
 
+
+router.use(jwtAuth)
+
 router.get('/', (req, res) => {
-return 	res.send('Hello Household')
+  return res.send('Hello Household')
 })
 
-router.use('/user',userRouter);
+router.use('/user', userRouter);
+
 
 /*
   集中处理404请求的中间件
  */
 router.use((req, res, next) => {
-  next(boom.notFound('接口不存在'))
+  next(boom.notFound('地址不存在'))
 })
 
 /*
   自定义路由异常处理中间件
  */
 router.use((err, req, res, next) => {
-  const msg = (err && err.message) || '系统错误'
-  const statusCode = (err.output && err.output.statusCode) || 500;
-  const errorMsg = (err.output && err.output.payload && err.output.payload.error) || err.message
-  res.status(statusCode).json({
-    code: CODE_ERROR,
-    msg,
-    error: statusCode,
-    errorMsg
-  })
+  if (err.name === 'UnauthorizedError') {
+    const { status = 401 } = err
+    new Result(null, 'token失效', {
+      error: err.status,
+      errorMsg: err.name
+    }).expired(res.status(err.status))
+  }
+  else {
+    const msg = (err && err.message) || '系统错误'
+    const statusCode = (err.output && err.output.statusCode) || 500;
+    const errorMsg = (err.output && err.output.payload && err.output.payload.error) || err.message
+    new Result(null, msg, {
+      error: statusCode || status,
+      errorMsg
+    }).fail(res)
+  }
+
 })
 
 module.exports = router

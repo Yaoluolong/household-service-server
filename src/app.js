@@ -4,6 +4,7 @@ const fs = require('fs')                 //引入用于文件操作的组件
 const https = require('https')           //引入用于搭建https服务的组件
 const bodyParser = require('body-parser')//引入用于解析request请求包的中间件
 const cors=require('cors')               //引入用于解决跨域问题的中间件
+const colors=require('colors')           //引入控制台颜色控制模块
 
 const app=express()
 
@@ -19,5 +20,5 @@ const httpsServer = https.createServer(credentials, app)
 const SSLPORT = 18082
 
 httpsServer.listen(SSLPORT, function() {
-  console.log('HTTPS服务器已启动: https://localhost:%s', SSLPORT)
+  console.log('\n'+'    --https服务器已启动'+': https://localhost:%s'.blue+'\n\n', SSLPORT)
 })
