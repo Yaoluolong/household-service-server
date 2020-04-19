@@ -1,6 +1,8 @@
 const express = require('express')
 const boom = require('boom')          //引入用于处理404请求的中间件
 const userRouter = require('./user')
+const staffRouter = require('./staff')
+const uploadRouter=require('./upload')
 const { jwtAuth } = require('./jwt')
 const Result = require('../models/Result')
 
@@ -14,8 +16,9 @@ router.get('/', (req, res) => {
   return res.send('Hello Household')
 })
 
-router.use('/user', userRouter);
-
+router.use('/user', userRouter)
+router.use('/staff', staffRouter)
+router.use('/upload',uploadRouter)
 
 /*
   集中处理404请求的中间件
@@ -29,7 +32,6 @@ router.use((req, res, next) => {
  */
 router.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
-    const { status = 401 } = err
     new Result(null, 'token失效', {
       error: err.status,
       errorMsg: err.name
@@ -42,7 +44,7 @@ router.use((err, req, res, next) => {
     new Result(null, msg, {
       error: statusCode || status,
       errorMsg
-    }).fail(res)
+    }).fail(res.status(statusCode))
   }
 
 })
