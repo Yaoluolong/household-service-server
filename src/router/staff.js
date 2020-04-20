@@ -52,9 +52,11 @@ router.post('/update', (req, res) => {
   update(staffID, name, sex, entryDate, profile, vocation, age, picture).then(result => {
     if (result) {
       new Result(result, '编辑成功').success(res)
-      fs.unlink(oriFile, function (err) {
-        if (err) { console.log(err) }
-      })
+      if (filename) {
+        fs.unlink(oriFile, function (err) {
+          if (err) { console.log(err) }
+        })
+      }
     } else {
       new Result('编辑失败').fail(res)
     }
