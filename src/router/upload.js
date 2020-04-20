@@ -24,7 +24,7 @@ router.post('/avatar',
       new Result('上传失败').fail(res)
     }
     else {
-      new Result('上传成功').success(res)
+      new Result(req.file.filename,'上传成功').success(res)
     }
   }
 )
