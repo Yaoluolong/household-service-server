@@ -1,8 +1,8 @@
-function increase(data,id) {
+function increase(data, id) {
   if (data && Array.isArray(data)) {
     let i = 3
     for (i = 1; i <= 100; i++) {
-      if (data.every(e =>+e[id] !== i)) {
+      if (data.every(e => +e[id] !== i)) {
         break
       }
     }

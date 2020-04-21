@@ -3,6 +3,8 @@ const boom = require('boom')          //引入用于处理404请求的中间件
 const userRouter = require('./user')
 const staffRouter = require('./staff')
 const uploadRouter=require('./upload')
+const classRouter = require('./class')
+const commodityRouter = require('./commodity')
 const { jwtAuth } = require('./jwt')
 const Result = require('../models/Result')
 
@@ -19,6 +21,8 @@ router.get('/', (req, res) => {
 router.use('/user', userRouter)
 router.use('/staff', staffRouter)
 router.use('/upload',uploadRouter)
+router.use('/class',classRouter)
+router.use('/commodity',commodityRouter)
 
 /*
   集中处理404请求的中间件

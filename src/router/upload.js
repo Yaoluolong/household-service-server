@@ -29,5 +29,27 @@ router.post('/avatar',
   }
 )
 
+router.post('/show',
+  multer({
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, `${UPLOAD_PATH}/show`)
+      },
+      filename: function (req, file, cb) {
+        const filename = Date.now() + '.' + file.mimetype.slice(6)
+        cb(null, filename)
+      }
+    })
+  }).single('file',4),
+  (req,res)=>{
+    if (!req.file || req.file.length === 0) {
+      new Result('上传失败').fail(res)
+    }
+    else {
+      new Result(req.file.filename, '上传成功').success(res)
+    }
+  }
+)
+
 module.exports = router
 
