@@ -32,14 +32,18 @@ function update(staffID, name, sex, entryDate, profile, vocation, age, picture) 
 }
 
 function remove(staffID) {
-  console.log(staffID)
   const sql = `DELETE FROM staff WHERE staffID='${staffID}'`
   return querySql(sql)
 }
 
+function query(staffID){
+const sql = `select * from staff where staffID='${staffID}'`
+  return querySql(sql)
+}
 module.exports = {
   create,
   list,
+  query,
   update,
   remove
 }

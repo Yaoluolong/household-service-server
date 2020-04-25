@@ -1,6 +1,6 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { create, list, update, remove } = require('../service/staff')
+const { create, list, update, remove, query } = require('../service/staff')
 const { decode } = require('../utils/decode')
 const { increase } = require('../utils/auto-increase')
 const { SOURCE_PATH, UPLOAD_PATH } = require('../utils/constant')
@@ -30,6 +30,16 @@ router.post('/create', (req, res) => {
 
 router.get('/list', (req, res) => {
   list().then(result => {
+    if (result) {
+      new Result(result, '查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
+    }
+  })
+})
+
+router.post('/query', (req, res) => {
+  query(req.body.id).then(result => {
     if (result) {
       new Result(result, '查询成功').success(res)
     } else {
