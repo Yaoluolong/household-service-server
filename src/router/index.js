@@ -5,6 +5,7 @@ const staffRouter = require('./staff')
 const uploadRouter=require('./upload')
 const classRouter = require('./class')
 const orderRouter = require('./order')
+const evaluateRouter = require('./evaluate')
 const commodityRouter = require('./commodity')
 const { jwtAuth } = require('./jwt')
 const Result = require('../models/Result')
@@ -25,6 +26,7 @@ router.use('/upload',uploadRouter)
 router.use('/class',classRouter)
 router.use('/commodity',commodityRouter)
 router.use('/order',orderRouter)
+router.use('/evaluate',evaluateRouter)
 
 /*
   集中处理404请求的中间件
