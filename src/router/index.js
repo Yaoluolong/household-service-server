@@ -7,6 +7,7 @@ const classRouter = require('./class')
 const orderRouter = require('./order')
 const evaluateRouter = require('./evaluate')
 const commodityRouter = require('./commodity')
+const promotionRouter = require('./promotion')
 const { jwtAuth } = require('./jwt')
 const Result = require('../models/Result')
 
@@ -27,6 +28,7 @@ router.use('/class',classRouter)
 router.use('/commodity',commodityRouter)
 router.use('/order',orderRouter)
 router.use('/evaluate',evaluateRouter)
+router.use('/promotion',promotionRouter)
 
 /*
   集中处理404请求的中间件

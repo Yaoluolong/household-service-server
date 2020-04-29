@@ -1,12 +1,13 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { login,findUser } = require('../service/user')
+const { login, findUser, create, update, list } = require('../service/user')
 const { md5 } = require('../utils/encryption')
 const { PWD_SALT, PRIVATE_KEY, JWT_EXPIRED } = require('../utils/constant')
 const { body, validationResult } = require('express-validator')
 const boom = require('boom')
 const jwt = require('jsonwebtoken')
 const { decode } = require('../utils/decode')
+const { increase } = require('../utils/auto-increase')
 
 const router = express.Router()
 
@@ -39,6 +40,41 @@ router.post('/login',
       })
     }
   })
+
+router.get('/create', (req, res) => {
+  const password = md5('123456') + md5(PWD_SALT)
+  list().then(result => {
+    let data = new Result(result, '查询成功').data
+    create(increase(data, 'username'), password).then(result => {
+      if (result) {
+        new Result('新增成功').success(res)
+      } else {
+        new Result('新增失败').fail(res)
+      }
+    })
+  })
+})
+
+router.post('/update',(req,res)=>{
+  const password = md5('123456') + md5(PWD_SALT)
+  update(req.body.username,password,req.body.role).then(result=>{
+    if (result) {
+      new Result('更新成功').success(res)
+    } else {
+      new Result('更新失败').fail(res)
+    }
+  })
+})
+
+router.get('/list', (req, res) => {
+  list().then(result => {
+    if (result) {
+      new Result(result, '查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
+    }
+  })
+})
 
 router.get('/info', function (req, res) {
   const decoded = decode(req)
