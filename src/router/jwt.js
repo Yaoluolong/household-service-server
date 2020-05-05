@@ -7,7 +7,8 @@ const jwtAuth = expressJwt({
 }).unless({
   path: [
     '/',
-    '/user/login'
+    '/user/login',
+    '/wechat/login'
   ], // 设置 jwt 认证白名单
 })
 

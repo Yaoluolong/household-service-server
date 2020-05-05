@@ -23,6 +23,12 @@ function update(id,feedback){
   return querySql(sql)
 }
 
+function create(id, openid, score, evaluate){
+  const sql = `INSERT INTO \`evaluate\` (\`evaluateID\`, \`content\`, \`orderID\`, \`customerID\`, \`score\`) 
+  VALUES ('${id}', '${evaluate}', '${id}', '${openid}', '${score}')`
+  return querySql(sql)
+}
+
 module.exports={
-  list,update
+  list, update, create
 }

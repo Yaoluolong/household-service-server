@@ -25,4 +25,15 @@ router.post('/update', (req, res) => {
   })
 })
 
+router.post('/create', (req, res) => {
+  const { id, openid, score, evaluate } = req.body
+  create(id, openid, score, evaluate).then(result => {
+    if (result) {
+      new Result('新增成功').success(res)
+    } else {
+      new Result('新增失败').fail(res)
+    }
+  })
+})
+
 module.exports = router

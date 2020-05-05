@@ -8,6 +8,7 @@ const orderRouter = require('./order')
 const evaluateRouter = require('./evaluate')
 const commodityRouter = require('./commodity')
 const promotionRouter = require('./promotion')
+const wechatRouter = require('./wechat')
 const { jwtAuth } = require('./jwt')
 const Result = require('../models/Result')
 
@@ -21,6 +22,9 @@ router.get('/', (req, res) => {
   return res.send('Hello Household')
 })
 
+/*
+  综合
+ */
 router.use('/user', userRouter)
 router.use('/staff', staffRouter)
 router.use('/upload',uploadRouter)
@@ -29,6 +33,9 @@ router.use('/commodity',commodityRouter)
 router.use('/order',orderRouter)
 router.use('/evaluate',evaluateRouter)
 router.use('/promotion',promotionRouter)
+router.use('/wechat', wechatRouter)
+
+
 
 /*
   集中处理404请求的中间件
