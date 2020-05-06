@@ -1,6 +1,6 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { login, create } = require('../service/wechat')
+const { login, create, update } = require('../service/wechat')
 const { PRIVATE_KEY } = require('../utils/constant')
 const jwt = require('jsonwebtoken')
 const { decode } = require('../utils/decode')
@@ -18,13 +18,13 @@ function getToken(data) {
 router.post('/login', (req, res) => {
   const { openid } = req.body
   login(openid).then(result => {
-    if (result.length!==0) {
+    if (result.length !== 0) {
       const token = getToken(result.customerID)
       new Result({ token }, '登录成功').success(res)
     }
     else {
-      const { avatarUrl, nickName, city } = req.body
-      create(openid, avatarUrl, nickName, city).then(answer => {
+      const { avatarUrl, nickName } = req.body
+      create(openid, avatarUrl, nickName).then(answer => {
         if (answer) {
           const token = getToken(openid)
           new Result({ token }, '新增成功').success(res)
@@ -34,6 +34,32 @@ router.post('/login', (req, res) => {
       }).catch(err => {
         console.log(err)
       })
+    }
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
+router.post('/update', (req, res) => {
+  const { openid, address } = req.body
+  update(openid, address).then(result => {
+    if (result) {
+      new Result('更新成功').success(res)
+    } else {
+      new Result('更新失败').fail(res)
+    }
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
+router.post('/query', (req, res) => {
+  const { openid } = req.body
+  login(openid).then(result => {
+    if (result) {
+      new Result(result,'查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
     }
   }).catch(err => {
     console.log(err)
