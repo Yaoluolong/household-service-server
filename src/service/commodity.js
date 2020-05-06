@@ -11,6 +11,11 @@ function list() {
   return querySql(sql)
 }
 
+function sort(className) {
+  const sql = `select * from commodity where className='${className}'`
+  return querySql(sql)
+}
+
 function remove(commodityID) {
   const sql = `DELETE FROM commodity WHERE commodityID='${commodityID}'`
   return querySql(sql)
@@ -24,5 +29,5 @@ function update(commodityID, name, className, price, show, describe, staffID) {
 }
 
 module.exports = {
-  create, list, remove, update
+  create, list, remove, update, sort
 }

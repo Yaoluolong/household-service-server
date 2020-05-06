@@ -11,11 +11,16 @@ function create(openid, avatarUrl, nickName) {
   return querySql(sql)
 }
 
-function update(openid,address) {
-  const sql = `UPDATE \`customer\` SET \`serviceAddress\`='${address}' WHERE (\`customerID\`='${openid}')`
+function update(openid, address, name, contact) {
+  let sql
+  if (address)
+    sql = `UPDATE \`customer\` SET \`serviceAddress\`='${address}' WHERE (\`customerID\`='${openid}')`
+  else {
+    sql = `UPDATE \`customer\` SET \`name\`='${name}', \`contact\`='${contact}' WHERE (\`customerID\`='${openid}')`
+  }
   return querySql(sql)
-} 
+}
 
-module.exports={
+module.exports = {
   login, create, update
 }

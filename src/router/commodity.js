@@ -1,6 +1,6 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { create, list, update, remove } = require('../service/commodity')
+const { create, list, update, remove, sort } = require('../service/commodity')
 const { increase } = require('../utils/auto-increase')
 const { UPLOAD_PATH } = require('../utils/constant')
 const fs = require('fs')
@@ -60,6 +60,16 @@ router.post('/create', (req, res) => {
         new Result('新增商品失败').fail(res)
       }
     })
+  })
+})
+
+router.post('/sort', (req, res) => {
+  sort(req.body.className).then(result => {
+    if (result) {
+      new Result(result, '查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
+    }
   })
 })
 

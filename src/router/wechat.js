@@ -41,8 +41,8 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/update', (req, res) => {
-  const { openid, address } = req.body
-  update(openid, address).then(result => {
+  const { openid, address,name,contact } = req.body
+  update(openid, address, name, contact).then(result => {
     if (result) {
       new Result('更新成功').success(res)
     } else {
