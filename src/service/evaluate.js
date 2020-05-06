@@ -29,6 +29,26 @@ function create(id, openid, score, evaluate){
   return querySql(sql)
 }
 
+function querylist(commodityID) {
+  const sql = `select evaluate.*,commodity.\`name\` as commodityName,commodity.className,customer.\`name\` as customerName,customer.avatar,customer.nickName
+        from evaluate
+        LEFT JOIN
+        \`order\`
+        ON
+        evaluate.orderID=\`order\`.orderID
+        LEFT JOIN
+        commodity
+        ON
+        commodity.commodityID=\`order\`.commodityID
+        LEFT JOIN
+        customer
+        ON
+        evaluate.customerID=customer.customerID
+        WHERE
+        commodity.commodityID='${commodityID}'`
+  return querySql(sql)
+}
+
 module.exports={
-  list, update, create
+  list, update, create, querylist
 }

@@ -1,12 +1,22 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { create, list, update } = require('../service/evaluate')
+const { create, list, update, querylist} = require('../service/evaluate')
 const { increase } = require('../utils/auto-increase')
 
 const router = express.Router()
 
 router.get('/list', (req, res) => {
   list().then(result => {
+    if (result) {
+      new Result(result, '查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
+    }
+  })
+})
+
+router.post('/querylist', (req, res) => {
+  querylist(req.body.commodityID).then(result => {
     if (result) {
       new Result(result, '查询成功').success(res)
     } else {
