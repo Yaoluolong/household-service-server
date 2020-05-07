@@ -1,6 +1,7 @@
 const express = require('express')
+const moment = require('moment')
 const Result = require('../models/Result')
-const { query, list, update, order } = require('../service/order')
+const { query, list, update, order, create } = require('../service/order')
 const { increase } = require('../utils/auto-increase')
 
 const router = express.Router()
@@ -22,6 +23,18 @@ router.post('/order', (req, res) => {
       new Result(result, '查询成功').success(res)
     } else {
       new Result('查询失败').fail(res)
+    }
+  })
+})
+
+router.post('/create', (req, res) => {
+  const orderID = new Date().getTime()
+  const orderDate = moment(orderID).format('YYYY-MM-DD')
+  create(orderID, orderDate, req.body).then(result => {
+    if (result) {
+      new Result(result, '新增成功').success(res)
+    } else {
+      new Result('新增失败').fail(res)
     }
   })
 })
