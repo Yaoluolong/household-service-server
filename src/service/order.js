@@ -20,6 +20,15 @@ function query(id) {
   return querySql(sql)
 }
 
+function order(commodityID,openid) {
+  const sql = `select *,commodity.name as commodityName from commodity,customer
+              WHERE
+              commodityID='${commodityID}'
+              AND
+              customerID='${openid}'`
+  return querySql(sql)
+}
+
 module.exports = {
-  list, update, query
+  list, update, query, order
 }
