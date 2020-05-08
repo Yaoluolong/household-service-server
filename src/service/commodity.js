@@ -33,6 +33,11 @@ function update(commodityID, name, className, price, show, describe, staffID) {
   return querySql(sql)
 }
 
+function search(key) {
+  const sql = `SELECT * FROM commodity WHERE name LIKE '%${key}%' OR \`describe\` LIKE '%${key}%' OR className LIKE '%${key}%''`
+  return querySql(sql)
+}
+
 module.exports = {
-  create, list, remove, update, sort, query
+  create, list, remove, update, sort, query, search
 }

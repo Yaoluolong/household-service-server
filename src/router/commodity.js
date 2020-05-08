@@ -1,6 +1,6 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { create, list, update, remove, sort, query } = require('../service/commodity')
+const { create, list, update, remove, sort, query, search } = require('../service/commodity')
 const { increase } = require('../utils/auto-increase')
 const { UPLOAD_PATH } = require('../utils/constant')
 const fs = require('fs')
@@ -65,6 +65,16 @@ router.post('/create', (req, res) => {
 
 router.post('/sort', (req, res) => {
   sort(req.body.className).then(result => {
+    if (result) {
+      new Result(result, '查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
+    }
+  })
+})
+
+router.post('/search', (req, res) => {
+  search(req.body.key).then(result => {
     if (result) {
       new Result(result, '查询成功').success(res)
     } else {
