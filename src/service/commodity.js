@@ -34,7 +34,7 @@ function update(commodityID, name, className, price, show, describe, staffID) {
 }
 
 function search(key) {
-  const sql = `SELECT * FROM commodity WHERE name LIKE '%${key}%' OR \`describe\` LIKE '%${key}%' OR className LIKE '%${key}%''`
+  const sql = `SELECT * FROM commodity WHERE name LIKE '%${key}%' OR \`describe\` LIKE '%${key}%' OR className LIKE '%${key}%'`
   return querySql(sql)
 }
 
