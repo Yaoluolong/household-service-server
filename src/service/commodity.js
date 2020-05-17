@@ -26,6 +26,14 @@ function query(id) {
   return querySql(sql)
 }
 
+function promote(promotionPrice, id){
+  const sql = `update commodity set 
+    promotionPrice=${promotionPrice}
+    where commodityID='${id}'`
+    console.log(sql)
+  return querySql(sql)
+}
+
 function update(commodityID, name, className, price, show, describe, staffID) {
   const sql = `update commodity set 
     \`name\`='${name}', className='${className}', price='${price}', \`describe\`='${describe}', staffID='${staffID}',\`show\`='${show.toString()}'
@@ -39,5 +47,5 @@ function search(key) {
 }
 
 module.exports = {
-  create, list, remove, update, sort, query, search
+  create, list, remove, update, sort, query, search, promote
 }

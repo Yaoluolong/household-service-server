@@ -1,6 +1,7 @@
 const express = require('express')
 const Result = require('../models/Result')
 const { create, list, update, remove, query } = require('../service/promotion')
+const { promote } = require('../service/commodity')
 const { increase } = require('../utils/auto-increase')
 const { SOURCE_PATH, UPLOAD_PATH } = require('../utils/constant')
 const fs = require('fs')
@@ -36,10 +37,24 @@ router.post('/create', (req, res) => {
 })
 
 router.post('/update', (req,res)=> {
-  const { id, status } = req.body
+  const { id, status,promotionPrice,commodityID } = req.body
   update(id, status).then(result => {
     if (result) {
-      new Result('更新成功').success(res)
+      if (status==='已激活'){
+        promote(promotionPrice, commodityID).then(answer=>{
+          if(answer)
+            new Result('更新成功').success(res)
+          else
+            new Result('更新失败').fail(res)
+        })
+      }else{
+        promote(null, commodityID).then(answer => {
+          if (answer)
+            new Result('更新成功').success(res)
+          else
+            new Result('更新失败').fail(res)
+        })
+      }
     } else {
       new Result('更新失败').fail(res)
     }
@@ -61,7 +76,7 @@ router.get('/list', (req, res) => {
     if (result) {
       new Result(result, '查询成功').success(res)
     } else {
-      new Result('申请失败').fail(res)
+      new Result('查询失败').fail(res)
     }
   })
 

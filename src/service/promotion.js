@@ -7,7 +7,11 @@ function create(promotionID, promotionName, commodityID, poster, promotionPrice,
 }
 
 function list() {
-  const sql = `select * from promotion`
+  const sql = `select promotion.*,commodity.name  from promotion
+  LEFT JOIN
+  commodity
+  ON
+  promotion.commodityID=commodity.commodityID`
   return querySql(sql)
 }
 
