@@ -30,7 +30,7 @@ function create(orderID, orderDate, data) {
   const sql = `INSERT INTO \`household\`.\`order\` 
   (\`orderID\`, \`orderDate\`, \`serviceDate\`, \`commodityID\`, \`customerID\`, \`serviceAddress\`, \`contact\`, \`amount\`, \`status\`, \`staffID\`, \`commodityAvatar\`, \`commodityName\`, \`className\`, \`customerName\`) 
   VALUES 
-  ('${orderID}', '${orderDate}', '${data.serviceDate}', '${data.commodityID}', '${data.customerID}', '${data.serviceAddress}', '${data.contact}', '${amount}', '${data.status}', '${data.staffID}', '${data.avatar}', '${data.commodityName}', '${data.className}', '${data.name}');`
+  ('${orderID}', '${orderDate}', '${data.serviceDate}', '${data.commodityID}', '${data.customerID}', '${data.serviceAddress}', '${data.contact}', '${amount}', '${data.status}', '${data.staffID}', '${data.show.split(',')[0]}', '${data.commodityName}', '${data.className}', '${data.name}');`
   return querySql(sql)
 }
 
