@@ -71,6 +71,16 @@ router.post('/remove',(req,res)=>{
   })
 })
 
+router.post('/query', (req, res) => {
+  query(req.body.id).then(result => {
+    if (result) {
+      new Result(result,'查询成功').success(res)
+    } else {
+      new Result('查询失败').fail(res)
+    }
+  })
+})
+
 router.get('/list', (req, res) => {
   list().then(result => {
     if (result) {

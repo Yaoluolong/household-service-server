@@ -6,6 +6,11 @@ function create(promotionID, promotionName, commodityID, poster, promotionPrice,
   return querySql(sql)
 }
 
+function query(id){
+  const sql = `select * from promotion where commodityID='${id}'`
+  return querySql(sql)
+}
+
 function list() {
   const sql = `select promotion.*,commodity.name  from promotion
   LEFT JOIN
@@ -26,5 +31,5 @@ function remove(id) {
 }
 
 module.exports = {
-  create, list, update, remove
+  create, list, update, remove, query
 }

@@ -6,7 +6,7 @@ function staff() {
 }
 
 function evaluate() {
-  const sql = `SELECT COUNT(*) as count FROM evaluate WHERE feedback='' or feedback=NULL`
+  const sql = `SELECT * FROM evaluate`
   return querySql(sql)
 }
 

@@ -1,6 +1,6 @@
 const express = require('express')
 const Result = require('../models/Result')
-const { login, findUser, create, update, list } = require('../service/user')
+const { login, findUser, create, update, list,remove } = require('../service/user')
 const { md5 } = require('../utils/encryption')
 const { PWD_SALT, PRIVATE_KEY, JWT_EXPIRED } = require('../utils/constant')
 const { body, validationResult } = require('express-validator')
@@ -72,6 +72,16 @@ router.get('/list', (req, res) => {
       new Result(result, '查询成功').success(res)
     } else {
       new Result('查询失败').fail(res)
+    }
+  })
+})
+
+router.post('/remove', (req, res) => {
+  remove(req.body.username).then(result => {
+    if (result) {
+      new Result(result, '删除成功').success(res)
+    } else {
+      new Result('删除失败').fail(res)
     }
   })
 })

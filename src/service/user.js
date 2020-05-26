@@ -11,12 +11,17 @@ function findUser(username) {
 }
 
 function create(username, password) {
-  const sql = `INSERT INTO \`user\` (\`username\`, \`password\`, \`role\`, \`avatar\`) VALUES ('${username}', '${password}', 'guest', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')`
+  const sql = `INSERT INTO \`user\` (\`username\`, \`password\`, \`role\`, \`avatar\`) VALUES ('${username}', '${password}', 'guest', 'https://yaoluolong.xyz:8088/household-service/logo/logo.png')`
   return querySql(sql)
 }
 
 function list() {
   const sql = 'select * from \`user\`'
+  return querySql(sql)
+}
+
+function remove(username) {
+  const sql = `DELETE FROM \`user\` WHERE \`username\`='${username}'`
   return querySql(sql)
 }
 
@@ -34,5 +39,6 @@ module.exports = {
   findUser,
   create,
   list,
-  update
+  update,
+  remove
 }
